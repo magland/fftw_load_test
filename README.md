@@ -8,7 +8,7 @@ Try it out for yourself and let me know if I'm making a mistake here.
 
 ## Installation
 
-First you need Qt5 and nodejs on your system.
+First you need Qt5, fftw, and nodejs on your system. See http://github.com/magland/mountainlab for instructions on that.
 
 ```bash
 git clone [this repo url]
