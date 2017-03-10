@@ -34,7 +34,7 @@ struct Fftw_runner {
         int odist = 1;
         unsigned flags = FFTW_ESTIMATE;
         if (task=="fftw") {
-            qDebug() << "Creating plan...";
+            qDebug().noquote() << "Creating plan...";
             p_fft = fftw_plan_many_dft(rank,n,howmany,data_in,inembed,istride,idist,data_out,onembed,ostride,odist,FFTW_FORWARD,flags);
         }
 
@@ -47,7 +47,9 @@ struct Fftw_runner {
             }
             //set input data
             //fft
+            qDebug().noquote() << "Executing fftw";
             fftw_execute(p_fft);
+            qDebug().noquote() << "Done executing.";
             //multiply by kernel
         }
         else if (task=="flops") {
@@ -87,7 +89,6 @@ int main(int argc,char *argv[]) {
     else if (task=="flops") default_M=100;
     bigint N=params.named_parameters.value("N",4e7).toDouble();
     bigint M=params.named_parameters.value("M",default_M).toDouble();
-
 
     Fftw_runner FR;
     FR.init(M,N,task);

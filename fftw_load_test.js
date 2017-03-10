@@ -2,15 +2,15 @@
 
 var CLP=new CLParams(process.argv);
 
-var num_threads=CLP.namedParameters['num_threads']||1;
-var num_trials=num_threads;
+var num_processes=CLP.namedParameters['num_processes']||1;
+var num_trials=num_processes;
 var task=CLP.namedParameters['task']||'fftw';
 
 var trials=[];
 for (var i=0; i<num_trials; i++) {
 	trials.push({});
 }
-foreach(trials,{num_parallel:num_trials},step,function() {
+foreach(trials,{num_parallel:num_processes},step,function() {
 	//done
 });
 function step(ii,trial,cb) {

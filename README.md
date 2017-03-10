@@ -17,14 +17,14 @@ qmake
 make
 ```
 
-Then try to run a single fftw process (sorry num_threads is deceptive, it should be num_processes)
+Then try to run a single fftw process
 ```bash
-./fftw_load_test.js --num_threads=1 --task=fftw
+./fftw_load_test.js --num_processes=1 --task=fftw
 ```
 
 Here's what I get:
 ```bash
-magland@jm3:~/dev/fftw_load_test$ ./fftw_load_test.js --num_threads=1 --task=fftw
+magland@jm3:~/dev/fftw_load_test$ ./fftw_load_test.js --num_processes=1 --task=fftw
 Calling: bin/fftw_load_test --task=fftw
 Creating plan...
 Running fftw load test for M,N=4,40000000
@@ -33,7 +33,7 @@ Elapsed time (sec) for M,N=4,40000000 (1.20901e+7 nums per sec): 13.234
 
 Now try with 6 processes:
 ```bash
-magland@jm3:~/dev/fftw_load_test$ ./fftw_load_test.js --num_threads=6 --task=fftw
+magland@jm3:~/dev/fftw_load_test$ ./fftw_load_test.js --num_processes=6 --task=fftw
 Calling: bin/fftw_load_test --task=fftw
 Calling: bin/fftw_load_test --task=fftw
 Calling: bin/fftw_load_test --task=fftw
@@ -64,7 +64,7 @@ Wow! It's slower. And unpredictable! That's what I've been dealing with in bandp
 
 Compare that with a simple floating-point operations test:
 ```bash
-magland@jm3:~/dev/fftw_load_test$ ./fftw_load_test.js --num_threads=1 --task=flops
+magland@jm3:~/dev/fftw_load_test$ ./fftw_load_test.js --num_processes=1 --task=flops
 Calling: bin/fftw_load_test --task=flops
 Running fftw load test for M,N=100,40000000
 Elapsed time (sec) for M,N=100,40000000 (1.08903e+9 nums per sec): 3.673
@@ -94,4 +94,6 @@ Does FFTW really have this serious (IMO) limitation?
 
 A possible explanation is that fftw does fancy optimization for single process execution and somehow does not consider the multiple independent processes scenario.
 
-Or maybe this only happens on my computer(s)? Tested on my desktop and my server. Next I'll try on my laptop.
+Or maybe this only happens on my computer(s)? I tested on my desktop and my server.
+
+Then I tested on my laptop, and the multiple simultaneous processes caused fftw_exec to crash. Maybe I'm doing something wrong, but if so, I'd like to know what.
